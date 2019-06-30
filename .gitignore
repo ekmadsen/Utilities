@@ -12,3 +12,5 @@
 /Utilities/Utilities/bin/Debug
 /Tests/bin/Release/netcoreapp2.2
 /Utilities/Utilities/bin/Release
+/Utilities/bin
+/Utilities/obj
