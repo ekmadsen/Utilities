@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>ErikTheCoder.Utilities</RootNamespace>
+    <AssemblyName>ErikTheCoder.Utilities</AssemblyName>
+    <Authors>Erik Madsen</Authors>
+    <Company>Erik Madsen</Company>
+    <Product>ErikTheCoder.Utilities</Product>
+    <Description>Miscellaneous code that doesn't belong in any other repository.</Description>
+    <Copyright>2019</Copyright>
+    <PackageProjectUrl>https://github.com/ekmadsen/Utilities</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ekmadsen/Utilities</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.1" />
+  </ItemGroup>
+
+</Project>

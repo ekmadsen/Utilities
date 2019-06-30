@@ -3,3 +3,10 @@
 ################################################################################
 
 /.vs
+/Utilities/.vs/Utilities/v16
+/Utilities/Utilities/bin/Debug/netstandard2.0
+/Utilities/Utilities/obj
+/Tests/bin/Debug/netcoreapp2.2
+/Tests/obj
+/Utilities/.vs/Utilities/DesignTimeBuild
+/Utilities/Utilities/bin/Debug
