@@ -10,3 +10,5 @@
 /Tests/obj
 /Utilities/.vs/Utilities/DesignTimeBuild
 /Utilities/Utilities/bin/Debug
+/Tests/bin/Release/netcoreapp2.2
+/Utilities/Utilities/bin/Release
