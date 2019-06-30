@@ -1,9 +1,8 @@
 ﻿using System;
-using ErikTheCoder.Utilities;
 using NUnit.Framework;
 
 
-namespace ErikTheCoder.Tests
+namespace ErikTheCoder.Utilities.Tests
 {
     [TestFixture]
     public class ThreadsafeRandomTests
@@ -14,27 +13,7 @@ namespace ErikTheCoder.Tests
         private const double _doubleComboInterval = 9_999_991d + (1d / 7d);
         private const double _minDoubleValue = -1_000_000_000_000d;
         private const double _maxDoubleValue = 1_000_000_000_000d;
-        private IThreadsafeRandom _random;
-        private IThreadsafeRandom _cryptoRandom;
 
-
-        [OneTimeSetUp]
-        public void SetUp()
-        {
-            _random = new ThreadsafeRandom();
-            _cryptoRandom = new ThreadsafeCryptoRandom();
-        }
-
-
-        [OneTimeTearDown]
-        public void TearDown()
-        {
-            // Release unmanaged resources.
-            _random.Dispose();
-            _random = null;
-            _cryptoRandom.Dispose();
-            _cryptoRandom = null;
-        }
 
         // +---------------------+
         // |                     |                
@@ -45,11 +24,11 @@ namespace ErikTheCoder.Tests
 
         // Test no parameters.
         [Test]
-        public void TestRandomInt() => TestRandomInt(_random);
+        public void TestRandomInt() => TestRandomInt(ApplicationResources.Random);
 
 
         [Test]
-        public void TestCryptoRandomInt() => TestRandomInt(_cryptoRandom);
+        public void TestCryptoRandomInt() => TestRandomInt(ApplicationResources.CryptoRandom);
 
 
         private static void TestRandomInt(IThreadsafeRandom Random)
@@ -65,11 +44,11 @@ namespace ErikTheCoder.Tests
 
         // Test negative max exception.
         [Test]
-        public void TestRandomIntNegativeMax() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomIntNegativeMax(_random));
+        public void TestRandomIntNegativeMax() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomIntNegativeMax(ApplicationResources.Random));
 
 
         [Test]
-        public void TestCryptoRandomIntNegativeMax() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomIntNegativeMax(_cryptoRandom));
+        public void TestCryptoRandomIntNegativeMax() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomIntNegativeMax(ApplicationResources.CryptoRandom));
 
 
         private static void TestRandomIntNegativeMax(IThreadsafeRandom Random) => Random.Next(-13);
@@ -77,11 +56,11 @@ namespace ErikTheCoder.Tests
 
         // Test max zero.
         [Test]
-        public void TestRandomIntMaxZero() => TestRandomIntMaxZero(_random);
+        public void TestRandomIntMaxZero() => TestRandomIntMaxZero(ApplicationResources.Random);
 
 
         [Test]
-        public void TestCryptoRandomIntMaxZero() => TestRandomIntMaxZero(_cryptoRandom);
+        public void TestCryptoRandomIntMaxZero() => TestRandomIntMaxZero(ApplicationResources.CryptoRandom);
 
 
         private static void TestRandomIntMaxZero(IThreadsafeRandom Random)
@@ -96,11 +75,11 @@ namespace ErikTheCoder.Tests
 
         // Test max.
         [Test]
-        public void TestRandomIntMax() => TestRandomIntMax(_random);
+        public void TestRandomIntMax() => TestRandomIntMax(ApplicationResources.Random);
 
 
         [Test]
-        public void TestCryptoRandomIntMax() => TestRandomIntMax(_cryptoRandom);
+        public void TestCryptoRandomIntMax() => TestRandomIntMax(ApplicationResources.CryptoRandom);
 
 
         private static void TestRandomIntMax(IThreadsafeRandom Random)
@@ -118,11 +97,11 @@ namespace ErikTheCoder.Tests
 
         // Test invalid range exception.
         [Test]
-        public void TestRandomIntInvalidRange() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomIntInvalidRange(_random));
+        public void TestRandomIntInvalidRange() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomIntInvalidRange(ApplicationResources.Random));
 
 
         [Test]
-        public void TestCryptoRandomIntInvalidRange() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomIntInvalidRange(_cryptoRandom));
+        public void TestCryptoRandomIntInvalidRange() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomIntInvalidRange(ApplicationResources.CryptoRandom));
 
 
         private static void TestRandomIntInvalidRange(IThreadsafeRandom Random) => Random.Next(9, 8);
@@ -130,11 +109,11 @@ namespace ErikTheCoder.Tests
 
         // Test same value for min and max.
         [Test]
-        public void TestRandomIntMinMaxSame() => TestRandomIntMinMaxSame(_random);
+        public void TestRandomIntMinMaxSame() => TestRandomIntMinMaxSame(ApplicationResources.Random);
 
 
         [Test]
-        public void TestCryptoRandomIntMinMaxSame() => TestRandomIntMinMaxSame(_cryptoRandom);
+        public void TestCryptoRandomIntMinMaxSame() => TestRandomIntMinMaxSame(ApplicationResources.CryptoRandom);
 
 
         private static void TestRandomIntMinMaxSame(IThreadsafeRandom Random)
@@ -150,11 +129,11 @@ namespace ErikTheCoder.Tests
 
         // Test min and max parameters.
         [Test]
-        public void TestRandomIntMinMax() => TestRandomIntMinMax(_random);
+        public void TestRandomIntMinMax() => TestRandomIntMinMax(ApplicationResources.Random);
 
 
         [Test]
-        public void TestCryptoRandomIntMinMax() => TestRandomIntMinMax(_cryptoRandom);
+        public void TestCryptoRandomIntMinMax() => TestRandomIntMinMax(ApplicationResources.CryptoRandom);
 
 
         private static void TestRandomIntMinMax(IThreadsafeRandom Random)
@@ -183,11 +162,11 @@ namespace ErikTheCoder.Tests
 
         // Test no parameters.
         [Test]
-        public void TestRandomDouble() => TestRandomDouble(_random);
+        public void TestRandomDouble() => TestRandomDouble(ApplicationResources.Random);
 
 
         [Test]
-        public void TestCryptoRandomDouble() => TestRandomDouble(_cryptoRandom);
+        public void TestCryptoRandomDouble() => TestRandomDouble(ApplicationResources.CryptoRandom);
 
 
         private static void TestRandomDouble(IThreadsafeRandom Random)
@@ -203,11 +182,11 @@ namespace ErikTheCoder.Tests
 
         // Test max.
         [Test]
-        public void TestRandomDoubleMax() => TestRandomDoubleMax(_random);
+        public void TestRandomDoubleMax() => TestRandomDoubleMax(ApplicationResources.Random);
 
 
         [Test]
-        public void TestCryptoRandomDoubleMax() => TestRandomDoubleMax(_cryptoRandom);
+        public void TestCryptoRandomDoubleMax() => TestRandomDoubleMax(ApplicationResources.CryptoRandom);
 
 
         private static void TestRandomDoubleMax(IThreadsafeRandom Random)
@@ -225,11 +204,11 @@ namespace ErikTheCoder.Tests
 
         // Test invalid range exception.
         [Test]
-        public void TestRandomDoubleInvalidRange() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomDoubleInvalidRange(_random));
+        public void TestRandomDoubleInvalidRange() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomDoubleInvalidRange(ApplicationResources.Random));
 
 
         [Test]
-        public void TestCryptoRandomDoubleInvalidRange() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomDoubleInvalidRange(_cryptoRandom));
+        public void TestCryptoRandomDoubleInvalidRange() => Assert.Throws<ArgumentOutOfRangeException>(() => TestRandomDoubleInvalidRange(ApplicationResources.CryptoRandom));
 
 
         private static void TestRandomDoubleInvalidRange(IThreadsafeRandom Random) => Random.NextDouble(99d, 88d);
@@ -237,11 +216,11 @@ namespace ErikTheCoder.Tests
 
         // Test min and max parameters.
         [Test]
-        public void TestRandomDoubleMinMax() => TestRandomDoubleMinMax(_random);
+        public void TestRandomDoubleMinMax() => TestRandomDoubleMinMax(ApplicationResources.Random);
 
 
         [Test]
-        public void TestCryptoRandomDoubleMinMax() => TestRandomDoubleMinMax(_cryptoRandom);
+        public void TestCryptoRandomDoubleMinMax() => TestRandomDoubleMinMax(ApplicationResources.CryptoRandom);
 
 
         private static void TestRandomDoubleMinMax(IThreadsafeRandom Random)
