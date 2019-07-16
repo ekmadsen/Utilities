@@ -52,6 +52,22 @@ namespace ErikTheCoder.Utilities
         }
 
 
+        [UsedImplicitly]
+        public static void Shuffle<T>(this List<T> Items, IThreadsafeRandom Random)
+        {
+            // Use the Fischer-Yates algorithm.
+            // See https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+            int maxIndex = Items.Count - 1;
+            for (int index = maxIndex; index > 0; index--)
+            {
+                int swapIndex = Random.Next(0, index + 1);
+                T temp = Items[index];
+                Items[index] = Items[swapIndex];
+                Items[swapIndex] = temp;
+            }
+        }
+
+
         // By default, Json.NET serializes public properties.
         // This works fine for Data Transfer Objects (DTOs) that contain auto-implemented properties with no logic in getters and setters.
         // It can cause null reference exceptions in domain objects that do contain logic in property getters and setters (if they're sensitive to the sequence in which they're called).
@@ -76,8 +92,10 @@ namespace ErikTheCoder.Utilities
                 {
                     if (_skipFields.Contains(field.Name)) { continue; }
                     JsonProperty jsonProperty = base.CreateProperty(field, MemberSerialization);
+                    jsonProperty.Ignored = false;
                     jsonProperty.Readable = true;
                     jsonProperty.Writable = true;
+                    jsonProperties.Add(jsonProperty);
                 }
                 return jsonProperties;
             }
