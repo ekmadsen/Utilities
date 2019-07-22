@@ -24,6 +24,39 @@ namespace ErikTheCoder.Utilities
         public static string RemoveControlCharacters(this string Text) => Regex.Replace(Text, @"[\p{C}-[\r\n\t]]+", string.Empty);
 
 
+        [UsedImplicitly]
+        public static string GetNumberWithSuffix(this int Number, string Format = null)
+        {
+            if (Number == 12) return $"{Number.ToString(Format)}th";
+            int digitInOnesColumn = Number % 10;
+            switch (digitInOnesColumn)
+            {
+                case 0:
+                    return $"{Number.ToString(Format)}th";
+                case 1:
+                    return $"{Number.ToString(Format)}st";
+                case 2:
+                    return $"{Number.ToString(Format)}nd";
+                case 3:
+                    return $"{Number.ToString(Format)}rd";
+                case 4:
+                    return $"{Number.ToString(Format)}th";
+                case 5:
+                    return $"{Number.ToString(Format)}th";
+                case 6:
+                    return $"{Number.ToString(Format)}th";
+                case 7:
+                    return $"{Number.ToString(Format)}th";
+                case 8:
+                    return $"{Number.ToString(Format)}th";
+                case 9:
+                    return $"{Number.ToString(Format)}th";
+                default:
+                    throw new Exception($"{Number} digit not supported.");
+            }
+        }
+
+
         // Performs a recursive copy of all class fields (public and private), except those the caller specifies should not be copied.
         // Supports circular references and fields whose type is an interface or abstract class.
         // In comparison, Object.MemberwiseClone in the Base Class Library performs a shallow copy.  Reference type fields of the copy point to the original reference.
