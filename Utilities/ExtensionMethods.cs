@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
@@ -12,6 +13,33 @@ namespace ErikTheCoder.Utilities
     [UsedImplicitly]
     public static class ExtensionMethods
     {
+        [UsedImplicitly]
+        public static string GetSummary(this Exception Exception, bool IncludeStackTrace = false, bool RecurseInnerExceptions = false)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            Exception exception = Exception;
+            while (exception != null)
+            {
+                // Include spaces to align text.
+                stringBuilder.AppendLine($"Exception Type =             {exception.GetType().FullName}");
+                stringBuilder.AppendLine($"Exception Message =          {exception.Message}");
+                if (IncludeStackTrace) stringBuilder.AppendLine($"Exception StackTrace =       {exception.StackTrace?.TrimStart(' ')}");
+                stringBuilder.AppendLine();
+                stringBuilder.AppendLine();
+                exception = RecurseInnerExceptions ? exception.InnerException : null;
+            }
+            return stringBuilder.ToString();
+        }
+
+
+        [UsedImplicitly]
+        public static string Truncate(this string Text, int MaxLength)
+        {
+            if (string.IsNullOrEmpty(Text)) return Text;
+            return Text.Length <= MaxLength ? Text : Text.Substring(0, MaxLength);
+        }
+
+
         [UsedImplicitly]
         public static void Deconstruct<T1, T2>(this KeyValuePair<T1, T2> Tuple, out T1 Key, out T2 Value)
         {
