@@ -129,6 +129,32 @@ namespace ErikTheCoder.Utilities
         }
 
 
+        [UsedImplicitly]
+        public static ListDiff<TSid> CalculateDiff<T, TSid>(this List<T> OriginalList, List<T> UpdatedList, Func<T, TSid> GetSid) => OriginalList.CalculateDiff(UpdatedList, GetSid, GetSid);
+
+
+        [UsedImplicitly]
+        public static ListDiff<TSid> CalculateDiff<TOriginal, TUpdated, TSid>(this List<TOriginal> OriginalList, List<TUpdated> UpdatedList,
+            Func<TOriginal, TSid> GetOriginalSid, Func<TUpdated, TSid> GetUpdatedSid)
+        {
+            ListDiff<TSid> diff = new ListDiff<TSid>();
+            // Extract the SIDs from the original and updated lists into two HashSets.
+            HashSet<TSid> originalSids = new HashSet<TSid>();
+            foreach (var item in OriginalList) originalSids.Add(GetOriginalSid(item));
+            HashSet<TSid> updatedSids = new HashSet<TSid>();
+            foreach (TUpdated item in UpdatedList) updatedSids.Add(GetUpdatedSid(item));
+            // Determine which items have been added to the updated list.
+            foreach (TSid sid in updatedSids) if (!originalSids.Contains(sid)) diff.Added.Add(sid);
+            // Determine which items remain in the updated list and which were deleted from the updated list.
+            foreach (TSid sid in originalSids)
+            {
+                if (updatedSids.Contains(sid)) diff.Remaining.Add(sid); // Item remains in updated list.
+                else diff.Removed.Add(sid); // Item was removed from updated list.
+            }
+            return diff;
+        }
+
+
         // By default, Json.NET serializes public properties.
         // This works fine for Data Transfer Objects (DTOs) that contain auto-implemented properties with no logic in getters and setters.
         // It can cause null reference exceptions in domain objects that do contain logic in property getters and setters (if they're sensitive to the sequence in which they're called).
