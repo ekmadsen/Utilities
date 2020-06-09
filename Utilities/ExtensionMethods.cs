@@ -92,7 +92,7 @@ namespace ErikTheCoder.Utilities
         // For MemberwiseClone():  Object.ReferenceEquals(copy.FieldName, original.FieldName) == true;
 		// For DeepCopy():         Object.ReferenceEquals(copy.FieldName, original.FieldName) == false;
 		[UsedImplicitly]
-        public static T DeepCopy<T>(this T Original, List<string> SkipFields = null) where T : class
+        public static T DeepCopy<T>(this T Original, IList<string> SkipFields = null) where T : class
         {
             if (Original != null)
             {
@@ -107,14 +107,14 @@ namespace ErikTheCoder.Utilities
                     ContractResolver = new FieldContractResolver(SkipFields ?? new List<string>())
                 };
                 string json = JsonConvert.SerializeObject(Original, jsonSerializerSettings);
-                if (json != null) { return JsonConvert.DeserializeObject<T>(json, jsonSerializerSettings); }
+                return JsonConvert.DeserializeObject<T>(json, jsonSerializerSettings);
             }
             return null;
         }
 
 
         [UsedImplicitly]
-        public static void Shuffle<T>(this List<T> Items, IThreadsafeRandom Random)
+        public static void Shuffle<T>(this IList<T> Items, IThreadsafeRandom Random)
         {
             // Use the Fischer-Yates algorithm.
             // See https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
@@ -130,11 +130,11 @@ namespace ErikTheCoder.Utilities
 
 
         [UsedImplicitly]
-        public static ListDiff<TSid> CalculateDiff<T, TSid>(this List<T> OriginalList, List<T> UpdatedList, Func<T, TSid> GetSid) => OriginalList.CalculateDiff(UpdatedList, GetSid, GetSid);
+        public static ListDiff<TSid> CalculateDiff<T, TSid>(this IList<T> OriginalList, IList<T> UpdatedList, Func<T, TSid> GetSid) => CalculateDiff(OriginalList, UpdatedList, GetSid, GetSid);
 
 
         [UsedImplicitly]
-        public static ListDiff<TSid> CalculateDiff<TOriginal, TUpdated, TSid>(this List<TOriginal> OriginalList, List<TUpdated> UpdatedList,
+        public static ListDiff<TSid> CalculateDiff<TOriginal, TUpdated, TSid>(this IList<TOriginal> OriginalList, IList<TUpdated> UpdatedList,
             Func<TOriginal, TSid> GetOriginalSid, Func<TUpdated, TSid> GetUpdatedSid)
         {
             ListDiff<TSid> diff = new ListDiff<TSid>();
@@ -153,6 +153,10 @@ namespace ErikTheCoder.Utilities
             }
             return diff;
         }
+
+
+        [UsedImplicitly]
+        public static bool IsNullOrEmpty<T>(this IList<T> List) => (List == null) || (List.Count == 0);
 
 
         // By default, Json.NET serializes public properties.
