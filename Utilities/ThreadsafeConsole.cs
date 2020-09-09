@@ -40,10 +40,10 @@ namespace ErikTheCoder.Utilities
         [UsedImplicitly]
         public static void WriteLine(string Message, ConsoleColor Color = ConsoleColor.White, Stopwatch Stopwatch = null, bool IncludeThreadName = false)
         {
-            string elapsed = Stopwatch is null
+            var elapsed = Stopwatch is null
                 ? string.Empty
                 : $"{Stopwatch.Elapsed.TotalSeconds.ToString(_elapsedSecondsFormat)}  ";
-            string threadName = IncludeThreadName
+            var threadName = IncludeThreadName
                 ? $"Thread{System.Threading.Thread.CurrentThread.ManagedThreadId.ToString(_threadIdFormat)}  "
                 : string.Empty;
             lock (_lock)
