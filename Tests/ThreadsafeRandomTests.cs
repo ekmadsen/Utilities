@@ -33,9 +33,9 @@ namespace ErikTheCoder.Utilities.Tests
 
         private static void TestRandomInt(IThreadsafeRandom Random)
         {
-            for (int i = 0; i < _repeatTests; i++)
+            for (var i = 0; i < _repeatTests; i++)
             {
-                int value = Random.Next();
+                var value = Random.Next();
                 Assert.That(value, Is.GreaterThanOrEqualTo(0));
                 Assert.That(value, Is.LessThan(int.MaxValue));
             }
@@ -65,9 +65,9 @@ namespace ErikTheCoder.Utilities.Tests
 
         private static void TestRandomIntMaxZero(IThreadsafeRandom Random)
         {
-            for (int i = 0; i < _repeatTests; i++)
+            for (var i = 0; i < _repeatTests; i++)
             {
-                int value = Random.Next(0);
+                var value = Random.Next(0);
                 Assert.That(value, Is.EqualTo(0));
             }
         }
@@ -86,9 +86,9 @@ namespace ErikTheCoder.Utilities.Tests
         {
             const int maxValue = int.MaxValue - _integerInterval;
             // Don't test zero.  That's covered by TestRandomIntMaxZero.
-            for (int max = 1; max <= maxValue; max += _integerInterval)
+            for (var max = 1; max <= maxValue; max += _integerInterval)
             {
-                int value = Random.Next(max);
+                var value = Random.Next(max);
                 Assert.That(value, Is.GreaterThanOrEqualTo(0));
                 Assert.That(value, Is.LessThan(max));
             }
@@ -119,9 +119,9 @@ namespace ErikTheCoder.Utilities.Tests
         private static void TestRandomIntMinMaxSame(IThreadsafeRandom Random)
         {
             const int maxValue = int.MaxValue - _integerInterval;
-            for (int minMax = 1; minMax <= maxValue; minMax += _integerInterval)
+            for (var minMax = 1; minMax <= maxValue; minMax += _integerInterval)
             {
-                int value = Random.Next(minMax, minMax);
+                var value = Random.Next(minMax, minMax);
                 Assert.That(value, Is.EqualTo(minMax));
             }
         }
@@ -139,13 +139,13 @@ namespace ErikTheCoder.Utilities.Tests
         private static void TestRandomIntMinMax(IThreadsafeRandom Random)
         {
             const int maxValue = int.MaxValue - (2 * _integerComboInterval);
-            for (int min = int.MinValue; min <= maxValue; min += _integerComboInterval)
+            for (var min = int.MinValue; min <= maxValue; min += _integerComboInterval)
             {
                 // Don't test max < min.   That's covered by TestRandomIntInvalidRange.
                 // Don't test max == min.  That's covered by TestRandomIntMinMaxSame.
-                for (int max = min + _integerComboInterval; max <= maxValue; max += _integerComboInterval)
+                for (var max = min + _integerComboInterval; max <= maxValue; max += _integerComboInterval)
                 {
-                    int value = Random.Next(min, max);
+                    var value = Random.Next(min, max);
                     Assert.That(value, Is.GreaterThanOrEqualTo(min));
                     Assert.That(value, Is.LessThan(max));
                 }
@@ -171,9 +171,9 @@ namespace ErikTheCoder.Utilities.Tests
 
         private static void TestRandomDouble(IThreadsafeRandom Random)
         {
-            for (int i = 0; i < _repeatTests; i++)
+            for (var i = 0; i < _repeatTests; i++)
             {
-                double value = Random.NextDouble();
+                var value = Random.NextDouble();
                 Assert.That(value, Is.GreaterThanOrEqualTo(-double.Epsilon));
                 Assert.That(value, Is.LessThanOrEqualTo((1d + double.Epsilon)));
             }
@@ -194,7 +194,7 @@ namespace ErikTheCoder.Utilities.Tests
             double max = 0;
             do
             {
-                double value = Random.NextDouble(max);
+                var value = Random.NextDouble(max);
                 Assert.That(value, Is.GreaterThanOrEqualTo(-double.Epsilon));
                 Assert.That(value, Is.LessThanOrEqualTo(max + double.Epsilon));
                 max += _doubleComboInterval;
@@ -226,15 +226,15 @@ namespace ErikTheCoder.Utilities.Tests
         private static void TestRandomDoubleMinMax(IThreadsafeRandom Random)
         {
 
-            double min = _minDoubleValue;
-            double max = min;
+            var min = _minDoubleValue;
+            var max = min;
             do
             {
                 do
                 {
                     // Don't test max < min.  That's covered by TestRandomDoubleInvalidRange.
                     max += _doubleComboInterval;
-                    double value = Random.NextDouble(min, max);
+                    var value = Random.NextDouble(min, max);
                     Assert.That(value, Is.GreaterThanOrEqualTo(min - double.Epsilon));
                     Assert.That(value, Is.LessThanOrEqualTo(max + double.Epsilon));
                 } while (max <= _maxDoubleValue);
