@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 
 
-
 namespace ErikTheCoder.Utilities.Tests
 {
     [SetUpFixture]
