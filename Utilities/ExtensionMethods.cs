@@ -16,8 +16,8 @@ namespace ErikTheCoder.Utilities
         [UsedImplicitly]
         public static string GetSummary(this Exception Exception, bool IncludeStackTrace = false, bool RecurseInnerExceptions = false)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-            Exception exception = Exception;
+            var stringBuilder = new StringBuilder();
+            var exception = Exception;
             while (exception != null)
             {
                 // Include spaces to align text.
@@ -30,6 +30,13 @@ namespace ErikTheCoder.Utilities
             }
             return stringBuilder.ToString();
         }
+
+        [UsedImplicitly]
+        public static bool IsNullOrEmpty(this string Text) => string.IsNullOrEmpty(Text);
+
+
+        [UsedImplicitly]
+        public static bool IsNullOrWhiteSpace(this string Text) => string.IsNullOrWhiteSpace(Text);
 
 
         [UsedImplicitly]
@@ -56,7 +63,7 @@ namespace ErikTheCoder.Utilities
         public static string GetNumberWithSuffix(this int Number, string Format = null)
         {
             if (Number == 12) return $"{Number.ToString(Format)}th";
-            int digitInOnesColumn = Number % 10;
+            var digitInOnesColumn = Number % 10;
             switch (digitInOnesColumn)
             {
                 case 0:
@@ -96,7 +103,7 @@ namespace ErikTheCoder.Utilities
         {
             if (Original != null)
             {
-                JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+                var jsonSerializerSettings = new JsonSerializerSettings
                 {
                     // Preserving object references enables serialization to function correctly when an object graph contains circular references.
                     //   Such as a parent object referring to a child object, and the child object referring back to the parent object.
@@ -106,7 +113,7 @@ namespace ErikTheCoder.Utilities
                     TypeNameHandling = TypeNameHandling.All,
                     ContractResolver = new FieldContractResolver(SkipFields ?? new List<string>())
                 };
-                string json = JsonConvert.SerializeObject(Original, jsonSerializerSettings);
+                var json = JsonConvert.SerializeObject(Original, jsonSerializerSettings);
                 return JsonConvert.DeserializeObject<T>(json, jsonSerializerSettings);
             }
             return null;
@@ -118,11 +125,11 @@ namespace ErikTheCoder.Utilities
         {
             // Use the Fischer-Yates algorithm.
             // See https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-            int maxIndex = Items.Count - 1;
-            for (int index = maxIndex; index > 0; index--)
+            var maxIndex = Items.Count - 1;
+            for (var index = maxIndex; index > 0; index--)
             {
-                int swapIndex = Random.Next(0, index + 1);
-                T temp = Items[index];
+                var swapIndex = Random.Next(0, index + 1);
+                var temp = Items[index];
                 Items[index] = Items[swapIndex];
                 Items[swapIndex] = temp;
             }
@@ -137,16 +144,16 @@ namespace ErikTheCoder.Utilities
         public static ListDiff<TSid> CalculateDiff<TOriginal, TUpdated, TSid>(this IList<TOriginal> OriginalList, IList<TUpdated> UpdatedList,
             Func<TOriginal, TSid> GetOriginalSid, Func<TUpdated, TSid> GetUpdatedSid)
         {
-            ListDiff<TSid> diff = new ListDiff<TSid>();
+            var diff = new ListDiff<TSid>();
             // Extract the SIDs from the original and updated lists into two HashSets.
-            HashSet<TSid> originalSids = new HashSet<TSid>();
+            var originalSids = new HashSet<TSid>();
             foreach (var item in OriginalList) originalSids.Add(GetOriginalSid(item));
-            HashSet<TSid> updatedSids = new HashSet<TSid>();
-            foreach (TUpdated item in UpdatedList) updatedSids.Add(GetUpdatedSid(item));
+            var updatedSids = new HashSet<TSid>();
+            foreach (var item in UpdatedList) updatedSids.Add(GetUpdatedSid(item));
             // Determine which items have been added to the updated list.
-            foreach (TSid sid in updatedSids) if (!originalSids.Contains(sid)) diff.Added.Add(sid);
+            foreach (var sid in updatedSids) if (!originalSids.Contains(sid)) diff.Added.Add(sid);
             // Determine which items remain in the updated list and which were deleted from the updated list.
-            foreach (TSid sid in originalSids)
+            foreach (var sid in originalSids)
             {
                 if (updatedSids.Contains(sid)) diff.Remaining.Add(sid); // Item remains in updated list.
                 else diff.Removed.Add(sid); // Item was removed from updated list.
@@ -177,12 +184,12 @@ namespace ErikTheCoder.Utilities
 
             protected override IList<JsonProperty> CreateProperties(Type Type, MemberSerialization MemberSerialization)
             {
-                List<JsonProperty> jsonProperties = new List<JsonProperty>();
-                FieldInfo[] fields = Type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                foreach (FieldInfo field in fields)
+                var jsonProperties = new List<JsonProperty>();
+                var fields = Type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                foreach (var field in fields)
                 {
                     if (_skipFields.Contains(field.Name)) { continue; }
-                    JsonProperty jsonProperty = base.CreateProperty(field, MemberSerialization);
+                    var jsonProperty = base.CreateProperty(field, MemberSerialization);
                     jsonProperty.Ignored = false;
                     jsonProperty.Readable = true;
                     jsonProperty.Writable = true;
