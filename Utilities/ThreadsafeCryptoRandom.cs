@@ -22,10 +22,7 @@ namespace ErikTheCoder.Utilities
         }
 
 
-        ~ThreadsafeCryptoRandom()
-        {
-            Dispose(false);
-        }
+        ~ThreadsafeCryptoRandom() => Dispose(false);
 
 
         public void Dispose()
@@ -62,11 +59,11 @@ namespace ErikTheCoder.Utilities
         public int Next(int InclusiveMin, int ExclusiveMax)
         {
             if (ExclusiveMax < InclusiveMin) { throw new ArgumentOutOfRangeException(); }
-            int range = ExclusiveMax - InclusiveMin;
+            var range = ExclusiveMax - InclusiveMin;
             if (range == 0) { return InclusiveMin; }
-            byte[] randomBytes = new byte[sizeof(int)];
+            var randomBytes = new byte[sizeof(int)];
             NextBytes(randomBytes);
-            uint random = BitConverter.ToUInt32(randomBytes, 0);
+            var random = BitConverter.ToUInt32(randomBytes, 0);
             return InclusiveMin + (int)(random % range);
         }
 
@@ -79,14 +76,14 @@ namespace ErikTheCoder.Utilities
 
         public double NextDouble(double Min, double Max)
         {
-            double range = Max - Min;
+            var range = Max - Min;
             if (range < -double.Epsilon) { throw new ArgumentOutOfRangeException(); }
-            byte[] randomBytes = new byte[sizeof(ulong)];
+            var randomBytes = new byte[sizeof(ulong)];
             NextBytes(randomBytes);
             // Bit-shift 11 and 53 based on double's mantissa bits.
             // See https://stackoverflow.com/a/2854635/8992299.
-            ulong randomLong = BitConverter.ToUInt64(randomBytes, 0) / (1ul << 11);
-            double randomDouble = randomLong / (double)(1ul << 53);
+            var randomLong = BitConverter.ToUInt64(randomBytes, 0) / (1ul << 11);
+            var randomDouble = randomLong / (double)(1ul << 53);
             return Min + (randomDouble * range);
         }
 

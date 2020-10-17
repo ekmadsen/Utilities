@@ -29,10 +29,7 @@ namespace ErikTheCoder.Utilities
         }
 
 
-        ~ThreadsafeRandom()
-        {
-            Dispose(false);
-        }
+        ~ThreadsafeRandom() => Dispose(false);
 
 
         public void Dispose()
@@ -100,7 +97,7 @@ namespace ErikTheCoder.Utilities
 
         public double NextDouble(double Min, double Max)
         {
-            double range = Max - Min;
+            var range = Max - Min;
             if (range < -double.Epsilon) { throw new ArgumentOutOfRangeException(); }
             lock (_lock)
             {
