@@ -32,6 +32,7 @@ namespace ErikTheCoder.Utilities
         }
 
         [UsedImplicitly]
+        [ContractAnnotation("Text: null => true")]
         public static bool IsNullOrEmpty(this string Text) => string.IsNullOrEmpty(Text);
 
 
